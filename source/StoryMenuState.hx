@@ -12,6 +12,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
+import ui.FlxVirtualPad;
 
 #if windows
 import Discord.DiscordClient;
@@ -71,6 +72,8 @@ class StoryMenuState extends MusicBeatState
 	var sprDifficulty:FlxSprite;
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
+
+	var _pad:FlxVirtualPad;
 
 	override function create()
 	{
@@ -196,6 +199,10 @@ class StoryMenuState extends MusicBeatState
 
 		trace("Line 165");
 
+		_pad = new FlxVirtualPad(FULL, A_B);
+    	        _pad.alpha = 0.75;
+    	        this.add(_pad);
+
 		super.create();
 	}
 
@@ -218,43 +225,60 @@ class StoryMenuState extends MusicBeatState
 			lock.y = grpWeekText.members[lock.ID].y;
 		});
 
+		var UP_P = _pad.buttonUp.justPressed;
+		var RIGHT_P = _pad.buttonRight.justPressed;
+		var DOWN_P = _pad.buttonDown.justPressed;
+		var LEFT_P = _pad.buttonLeft.justPressed;
+		
+		var RIGHT = _pad.buttonRight.pressed;
+		var LEFT = _pad.buttonLeft.pressed;
+
+		var ACCEPT = _pad.buttonA.justPressed;
+		var BACK = _pad.buttonB.justPressed;
+
+		#if android
+		var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
+		#else
+		var BACK = _pad.buttonB.justPressed;
+		#end
+
 		if (!movedBack)
 		{
 			if (!selectedWeek)
 			{
-				if (controls.UP_P)
+				if (controls.UP_P || UP_P)
 				{
 					changeWeek(-1);
 				}
 
-				if (controls.DOWN_P)
+				if (controls.DOWN_P || DOWN_P)
 				{
 					changeWeek(1);
 				}
 
-				if (controls.RIGHT)
+				if (controls.RIGHT || RIGHT)
 					rightArrow.animation.play('press')
 				else
 					rightArrow.animation.play('idle');
 
-				if (controls.LEFT)
+				if (controls.LEFT || LEFT)
 					leftArrow.animation.play('press');
 				else
 					leftArrow.animation.play('idle');
 
-				if (controls.RIGHT_P)
+				if (controls.RIGHT_P || RIGHT_P)
 					changeDifficulty(1);
-				if (controls.LEFT_P)
+				if (controls.LEFT_P || LEFT_P)
 					changeDifficulty(-1);
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || ACCEPT)
 			{
 				selectWeek();
 			}
 		}
 
-		if (controls.BACK && !movedBack && !selectedWeek)
+		if (controls.BACK || BACK && !movedBack && !selectedWeek)
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
