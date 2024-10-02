@@ -227,6 +227,7 @@ class OptionsMenu extends MusicBeatState
 					else if (FlxG.keys.pressed.LEFT || LEFT)
 						FlxG.save.data.offset -= 0.1;
 			}*/
+			}
 		
 
 			if (controls.RESET)
