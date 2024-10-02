@@ -74,6 +74,13 @@ class OptionsMenu extends MusicBeatState
 	var currentSelectedCat:OptionCategory;
 	var blackBorder:FlxSprite;
 	var _pad:FlxVirtualPad;
+	var UP_P:Bool;
+	var DOWN_P:Bool;
+	var LEFT:Bool;
+	var RIGHT:Bool;
+	var BACK:Bool;
+	var ACCEPT:Bool;
+	var CONTROLS:Bool;
 	override function create()
 	{
 		instance = this;
@@ -128,18 +135,18 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		var UP_P = _pad.buttonUp.justPressed;
-		var DOWN_P = _pad.buttonDown.justPressed;
-		var LEFT = _pad.buttonLeft.pressed;
-		var RIGHT = _pad.buttonRight.pressed;
-		var BACK = _pad.buttonB.justPressed;
-		var CONTROLS = _pad.buttonC.justPressed;
+		UP_P = _pad.buttonUp.justPressed;
+		DOWN_P = _pad.buttonDown.justPressed;
+		LEFT = _pad.buttonLeft.pressed;
+		RIGHT = _pad.buttonRight.pressed;
+		BACK = _pad.buttonB.justPressed;
+		CONTROLS = _pad.buttonC.justPressed;
 
-		if (acceptInput)
+		if (acceptInput || _pad.buttonA.justPressed)
 		{
-			if (controls.BACK || BACK && !isCat)
+			if (BACK && !isCat)
 				FlxG.switchState(new MainMenuState());
-			else if (controls.BACK || BACK)
+			else if (BACK)
 			{
 				isCat = false;
 				grpControls.clear();
@@ -153,9 +160,9 @@ class OptionsMenu extends MusicBeatState
 					}
 				curSelected = 0;
 			}
-			if (controls.UP_P || UP_P)
+			if (UP_P)
 				changeSelection(-1);
-			if (controls.DOWN_P || DOWN_P)
+			if (DOWN_P)
 				changeSelection(1);
 
 			if (CONTROLS)
@@ -224,7 +231,7 @@ class OptionsMenu extends MusicBeatState
 			if (controls.RESET)
 					FlxG.save.data.offset = 0;
 
-			if (controls.ACCEPT || ACCEPT)
+			if (ACCEPT)
 			{
 				if (isCat)
 				{
