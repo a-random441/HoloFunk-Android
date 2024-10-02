@@ -28,18 +28,6 @@ jobs:
           java-version: 11
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2.0.2
-      - name: Setup Android NDK
-        uses: nttld/setup-ndk@v1
-        id: setup-ndk
-        with:
-          ndk-version: r21e
-      - name: Setup Java JDK
-        uses: actions/setup-java@main
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2.0.2
       - name: Setup gradle.properties
         uses: SimonMarquis/ci-gradle-properties-action@v1
         with:
