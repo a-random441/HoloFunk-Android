@@ -25,6 +25,8 @@ class OutdatedSubState extends MusicBeatState
 	];
 	private var colorRotation:Int = 1;
 
+	var justTouched:Bool = false;
+
 	override function create()
 	{
 		super.create();
@@ -49,7 +51,7 @@ class OutdatedSubState extends MusicBeatState
 			+ "\n\nWhat's new:\n\n"
 			+ currChanges
 			+ "\n& more changes and bugfixes in the full changelog"
-			+ "\n\nPress Space to view the full changelog and update\nor ESCAPE to ignore this",
+			+ "\n\nPress BACK to view the full changelog and update\nor Touch the screen to ignore this",
 			32);
 		
 		txt.setFormat("VCR OSD Mono", 32, FlxColor.fromRGB(200, 200, 200), CENTER);
@@ -84,11 +86,15 @@ class OutdatedSubState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (controls.ACCEPT)
+		for (touch in FlxG.touches.list)
+	                if (touch.justPressed)
+		                justTouched = true;
+
+		if (controls.ACCEPT #if android || FlxG.android.justReleased.BACK #end)
 		{
 			fancyOpenURL("https://kadedev.github.io/Kade-Engine/changelogs/changelog-" + needVer);
 		}
-		if (controls.BACK)
+		if (controls.BACK || justTouched) // wololo
 		{
 			leftState = true;
 			FlxG.switchState(new MainMenuState());
