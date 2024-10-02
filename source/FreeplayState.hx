@@ -187,7 +187,7 @@ class FreeplayState extends MusicBeatState
 		var accepted = controls.ACCEPT || _pad.buttonA.justPressed;
 		var LEFT_P = _pad.buttonLeft.justPressed;
 		var RIGHT_P = _pad.buttonRight.justPressed;
-		var BACK = _pad.buttonB.justPressed
+		var BACK = _pad.buttonB.justPressed;
 
 		if (upP)
 		{
