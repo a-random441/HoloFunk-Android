@@ -1827,8 +1827,12 @@ class PlayState extends MusicBeatState
         scoreTxt.text = Ratings.CalculateRanking(songScore, songScoreDef, nps, maxNPS, accuracy);
         if (!FlxG.save.data.accuracyDisplay)
         scoreTxt.text = "Score: " + songScore;
+        
+    	#if android
+		var backPressed = FlxG.android.justReleased.BACK;
+		#end
 
-        if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause) {
+        if (FlxG.keys.justPressed.ENTER || backPressed && startedCountdown && canPause) {
             persistentUpdate = false;
             persistentDraw = true;
             paused = true;
