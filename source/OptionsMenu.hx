@@ -140,6 +140,7 @@ class OptionsMenu extends MusicBeatState
 		LEFT = _pad.buttonLeft.pressed;
 		RIGHT = _pad.buttonRight.pressed;
 		BACK = _pad.buttonB.justPressed;
+		ACCEPT = _pad.buttonA.justPressed;
 		CONTROLS = _pad.buttonC.justPressed;
 
 		if (acceptInput || _pad.buttonA.justPressed)
