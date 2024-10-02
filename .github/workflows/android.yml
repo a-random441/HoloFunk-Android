@@ -28,6 +28,26 @@ jobs:
           java-version: 11
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2.0.2
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+      - name: Setup Java JDK
+        uses: actions/setup-java@main
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2.0.2
+      - name: Setup gradle.properties
+        uses: SimonMarquis/ci-gradle-properties-action@v1
+        with:
+           path: .github/gradle.properties
+      - name: Setup build.gradle
+        uses: thecodemonkey/action-get-gradle-version@v1.0
+        with:
+          file: .github/build.gradle
       - name: Setup Haxe
         uses: krdlab/setup-haxe@v1.1.5
         with:
