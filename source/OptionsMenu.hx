@@ -15,6 +15,8 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import ui.FlxVirtualPad;
+import options.CustomControlsState;
 
 class OptionsMenu extends MusicBeatState
 {
@@ -71,6 +73,7 @@ class OptionsMenu extends MusicBeatState
 
 	var currentSelectedCat:OptionCategory;
 	var blackBorder:FlxSprite;
+	var _pad:FlxVirtualPad;
 	override function create()
 	{
 		instance = this;
@@ -111,6 +114,10 @@ class OptionsMenu extends MusicBeatState
 		FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
 		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
 
+		_pad = new FlxVirtualPad(FULL, A_B_C);
+		_pad.alpha = 0.75;
+		this.add(_pad);
+
 		super.create();
 	}
 
@@ -121,11 +128,18 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		var UP_P = _pad.buttonUp.justPressed;
+		var DOWN_P = _pad.buttonDown.justPressed;
+		var LEFT = _pad.buttonLeft.pressed;
+		var RIGHT = _pad.buttonRight.pressed;
+		var BACK = _pad.buttonB.justPressed;
+		var CONTROLS = _pad.buttonC.justPressed;
+
 		if (acceptInput)
 		{
-			if (controls.BACK && !isCat)
+			if (controls.BACK || BACK && !isCat)
 				FlxG.switchState(new MainMenuState());
-			else if (controls.BACK)
+			else if (controls.BACK || BACK)
 			{
 				isCat = false;
 				grpControls.clear();
@@ -139,10 +153,15 @@ class OptionsMenu extends MusicBeatState
 					}
 				curSelected = 0;
 			}
-			if (controls.UP_P)
+			if (controls.UP_P || UP_P)
 				changeSelection(-1);
-			if (controls.DOWN_P)
+			if (controls.DOWN_P || DOWN_P)
 				changeSelection(1);
+
+			if (CONTROLS)
+			{
+				FlxG.switchState(new CustomControlsState());
+			}
 			
 			if (isCat)
 			{
@@ -158,9 +177,9 @@ class OptionsMenu extends MusicBeatState
 						}
 					else
 					{
-						if (FlxG.keys.justPressed.RIGHT)
+						if (FlxG.keys.justPressed.RIGHT || RIGHT)
 							currentSelectedCat.getOptions()[curSelected].right();
-						if (FlxG.keys.justPressed.LEFT)
+						if (FlxG.keys.justPressed.LEFT || LEFT)
 							currentSelectedCat.getOptions()[curSelected].left();
 					}
 				}
@@ -174,9 +193,9 @@ class OptionsMenu extends MusicBeatState
 						else if (FlxG.keys.justPressed.LEFT)
 							FlxG.save.data.offset -= 0.1;
 					}
-					else if (FlxG.keys.pressed.RIGHT)
+					else if (FlxG.keys.pressed.RIGHT || RIGHT)
 						FlxG.save.data.offset += 0.1;
-					else if (FlxG.keys.pressed.LEFT)
+					else if (FlxG.keys.pressed.LEFT || LEFT)
 						FlxG.save.data.offset -= 0.1;
 					
 				
@@ -195,9 +214,9 @@ class OptionsMenu extends MusicBeatState
 						else if (FlxG.keys.justPressed.LEFT)
 							FlxG.save.data.offset -= 0.1;
 					}
-					else if (FlxG.keys.pressed.RIGHT)
+					else if (FlxG.keys.pressed.RIGHT || RIGHT)
 						FlxG.save.data.offset += 0.1;
-					else if (FlxG.keys.pressed.LEFT)
+					else if (FlxG.keys.pressed.LEFT || LEFT)
 						FlxG.save.data.offset -= 0.1;
 			}
 		
@@ -205,7 +224,7 @@ class OptionsMenu extends MusicBeatState
 			if (controls.RESET)
 					FlxG.save.data.offset = 0;
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || ACCEPT)
 			{
 				if (isCat)
 				{
@@ -256,7 +275,7 @@ class OptionsMenu extends MusicBeatState
 		if (isCat)
 			currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
 		else
-			currentDescription = "Please select a category";
+			currentDescription = "Please select a category or press C for Mobile Controls";
 		if (isCat)
 		{
 			if (currentSelectedCat.getOptions()[curSelected].getAccept())
