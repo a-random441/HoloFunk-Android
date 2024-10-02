@@ -2498,14 +2498,14 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
-		if (!loadRep)
+		/*if (!loadRep)
 			rep.SaveReplay(saveNotes);
 		else
 		{
 			FlxG.save.data.botplay = false;
 			FlxG.save.data.scrollSpeed = 1;
 			FlxG.save.data.downscroll = false;
-		}
+		}*/
 
 		if (FlxG.save.data.fpsCap > 290)
 			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
@@ -2931,10 +2931,10 @@ class PlayState extends MusicBeatState
 			{
 			    
 				// control arrays, order L D R U
-				var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT, mcontrols.LEFT, mcontrols.DOWN, mcontrols.UP, mcontrols.RIGHT];
+				var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT || mcontrols.LEFT, mcontrols.DOWN, mcontrols.UP, mcontrols.RIGHT];
 				var pressArray:Array<Bool> = [
 					controls.LEFT_P || mcontrols.LEFT_P,
-					controls.DOWN_P ||mcontrols.DOWN_P,
+					controls.DOWN_P || mcontrols.DOWN_P,
 					controls.UP_P || mcontrols.UP_P,
 					controls.RIGHT_P || mcontrols.RIGHT_P
 				];
