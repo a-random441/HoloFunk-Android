@@ -9,6 +9,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import ui.FlxVirtualPad;
 
 
 #if windows
@@ -138,6 +139,10 @@ class FreeplayState extends MusicBeatState
 			trace(md);
 		 */
 
+		_pad = new FlxVirtualPad(FULL, A_B);
+		_pad.alpha = 0.75;
+		this.add(_pad);
+
 		super.create();
 	}
 
@@ -177,9 +182,12 @@ class FreeplayState extends MusicBeatState
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
+		var upP = controls.UP_P || _pad.buttonUp.justPressed;
+		var downP = controls.DOWN_P || _pad.buttonDown.justPressed #if android || FlxG.android.justReleased.BACK #end;
+		var accepted = controls.ACCEPT || _pad.buttonA.justPressed;
+		var LEFT_P = _pad.buttonLeft.justPressed;
+		var RIGHT_P = _pad.buttonRight.justPressed;
+		var BACK = _pad.buttonB.justPressed
 
 		if (upP)
 		{
@@ -190,12 +198,12 @@ class FreeplayState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		if (controls.LEFT_P)
+		if (controls.LEFT_P || LEFT_P)
 			changeDiff(-1);
-		if (controls.RIGHT_P)
+		if (controls.RIGHT_P || RIGHT_P)
 			changeDiff(1);
 
-		if (controls.BACK)
+		if (controls.BACK || BACK)
 		{
 			FlxG.switchState(new MainMenuState());
 		}
