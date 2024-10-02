@@ -57,9 +57,12 @@ import openfl.filters.ShaderFilter;
 #if windows
 import Discord.DiscordClient;
 #end
-#if windows
+#if cpp
 import Sys;
 import sys.FileSystem;
+#end
+#if mobile
+import mobilecontrols.Mobilecontrols;
 #end
 
 using StringTools;
@@ -99,6 +102,10 @@ class PlayState extends MusicBeatState
 	var iconRPC:String = "";
 	var detailsText:String = "";
 	var detailsPausedText:String = "";
+	#end
+	
+	#if mobile
+	var mcontrols:Mobilecontrols; 
 	#end
 
 	private var vocals:FlxSound;
@@ -945,6 +952,16 @@ class PlayState extends MusicBeatState
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
 		FlxG.fixedTimestep = false;
+		
+		#if mobile
+		mcontrols = new Mobilecontrols();
+		var camcontrol = new FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		mcontrols.cameras = [camcontrol];
+
+		add(mcontrols);
+		#end
 
 		if (FlxG.save.data.songPosition) // I dont wanna talk about this code :(
 			{
@@ -1436,13 +1453,13 @@ class PlayState extends MusicBeatState
 				case 'philly-nice': songLowercase = 'philly';
 			}
 		// Per song offset check
-		#if windows
+		#if cpp
 			var songPath = 'assets/data/' + songLowercase + '/';
 			
-			for(file in sys.FileSystem.readDirectory(songPath))
+			for(file in sys.FileSystem.readDirectory(SUtil.getStorageDirectory() + songPath))
 			{
 				var path = haxe.io.Path.join([songPath, file]);
-				if(!sys.FileSystem.isDirectory(path))
+				if(!sys.FileSystem.isDirectory(SUtil.getStorageDirectory() + path))
 				{
 					if(path.endsWith('.offset'))
 					{
@@ -1451,7 +1468,7 @@ class PlayState extends MusicBeatState
 						break;
 					}else {
 						trace('Offset file not found. Creating one @: ' + songPath);
-						sys.io.File.saveContent(songPath + songOffset + '.offset', '');
+						sys.io.File.saveContent(SUtil.getStorageDirectory() + songPath + songOffset + '.offset', '');
 					}
 				}
 			}
@@ -2912,19 +2929,20 @@ class PlayState extends MusicBeatState
 
 		private function keyShit():Void // I've invested in emma stocks
 			{
+			    
 				// control arrays, order L D R U
-				var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
+				var holdArray:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT, mcontrols.LEFT, mcontrols.DOWN, mcontrols.UP, mcontrols.RIGHT];
 				var pressArray:Array<Bool> = [
-					controls.LEFT_P,
-					controls.DOWN_P,
-					controls.UP_P,
-					controls.RIGHT_P
+					controls.LEFT_P || mcontrols.UP_P,
+					controls.DOWN_P ||mcontrols.DOWN_P,
+					controls.UP_P || mcontrols.UP_P,
+					controls.RIGHT_P || mcontrols.RIGHT_P
 				];
 				var releaseArray:Array<Bool> = [
-					controls.LEFT_R,
-					controls.DOWN_R,
-					controls.UP_R,
-					controls.RIGHT_R
+					controls.LEFT_R || mcontrols.LEFT_R,
+					controls.DOWN_R || mcontrols.DOWN_R,
+					controls.UP_R || mcontrols.UP_R,
+					controls.RIGHT_R || mcontrols.RIGHT_R
 				];
 				#if windows
 				if (luaModchart != null){
