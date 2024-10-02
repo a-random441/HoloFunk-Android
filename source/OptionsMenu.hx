@@ -208,7 +208,7 @@ class OptionsMenu extends MusicBeatState
 					
 				
 				}
-				if (currentSelectedCat.getOptions()[curSelected].getAccept())
+				/*if (currentSelectedCat.getOptions()[curSelected].getAccept())
 					versionShit.text =  currentSelectedCat.getOptions()[curSelected].getValue() + " - Description - " + currentDescription;
 				else
 					versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
@@ -226,7 +226,7 @@ class OptionsMenu extends MusicBeatState
 						FlxG.save.data.offset += 0.1;
 					else if (FlxG.keys.pressed.LEFT || LEFT)
 						FlxG.save.data.offset -= 0.1;
-			}
+			}*/
 		
 
 			if (controls.RESET)
