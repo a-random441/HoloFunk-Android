@@ -111,15 +111,15 @@ class OptionsMenu extends MusicBeatState
 		//versionShit.scrollFactor.set();
 		//versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		
-		blackBorder = new FlxSprite(-30,FlxG.height + 40).makeGraphic((Std.int(versionShit.width + 900)),Std.int(versionShit.height + 600),FlxColor.BLACK);
-		blackBorder.alpha = 0.5;
+		//blackBorder = new FlxSprite(-30,FlxG.height + 40).makeGraphic((Std.int(versionShit.width + 900)),Std.int(versionShit.height + 600),FlxColor.BLACK);
+		//blackBorder.alpha = 0.5;
 
-		add(blackBorder);
+		//add(blackBorder);
 
-		add(versionShit);
+		//add(versionShit);
 
-		FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
-		FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
+		//FlxTween.tween(versionShit,{y: FlxG.height - 18},2,{ease: FlxEase.elasticInOut});
+		//FlxTween.tween(blackBorder,{y: FlxG.height - 18},2, {ease: FlxEase.elasticInOut});
 
 		_pad = new FlxVirtualPad(FULL, A_B_C);
 		_pad.alpha = 0.75;
@@ -279,7 +279,7 @@ class OptionsMenu extends MusicBeatState
 		if (curSelected >= grpControls.length)
 			curSelected = 0;
 
-		if (isCat)
+		/*if (isCat)
 			currentDescription = currentSelectedCat.getOptions()[curSelected].getDescription();
 		else
 			currentDescription = "Please select a category or press C for Mobile Controls";
@@ -291,8 +291,9 @@ class OptionsMenu extends MusicBeatState
 				versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
 		}
 		else
-			versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
+			//versionShit.text = "Offset (Left, Right, Shift for slow): " + HelperFunctions.truncateFloat(FlxG.save.data.offset,2) + " - Description - " + currentDescription;
 		// selector.y = (70 * curSelected) + 30;
+                */
 
 		var bullShit:Int = 0;
 
